@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NIX - Lifestyle Brand</title>
+
+<style>
+:root {
+    --primary: #00ff88;
+    --bg: #0a0a0a;
+    --card: #141414;
+    --text: #ffffff;
+}
+
+body {
+    margin:0;
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+}
+
+/* Header */
+header {
+    text-align:center;
+    padding: 30px 20px;
+    background: linear-gradient(to bottom, #000, transparent);
+}
+
+.logo-site {
+    height: 80px;
+    width: auto;
+}
+
+/* Botão Flutuante do Carrinho */
+.cart-trigger {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: var(--primary);
+    color: #000;
+    padding: 15px 20px;
+    border-radius: 50px;
+    font-weight: 900;
+    cursor: pointer;
+    z-index: 99;
+    box-shadow: 0 10px 20px rgba(0, 255, 136, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: 0.3s;
+}
+
+.cart-trigger:hover { transform: scale(1.1); }
+
+.cart-count {
+    background: #000;
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+}
+
+/* Container de Produtos */
+.container {
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    padding: 20px 5% 100px 5%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.produto {
+    background: var(--card);
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid #222;
+    transition: 0.4s;
+}
+
+.produto:hover {
+    transform: translateY(-10px);
+    border-color: var(--primary);
+}
+
+.produto img { width: 100%; height: 320px; object-fit: cover; }
+.produto .info { padding: 20px; }
+.produto .preco { color: var(--primary); font-size: 1.4rem; font-weight: 700; margin: 10px 0; }
+
+.produto button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: #fff;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+/* Lateral do Carrinho (Escondido por padrão) */
+.carrinho-sidebar {
+    position: fixed;
+    right: -400px; /* Escondido */
+    top: 0;
+    width: 350px;
+    height: 100%;
+    background: #000;
+    padding: 30px;
+    box-shadow: -10px 0 30px rgba(0,0,0,0.9);
+    z-index: 1000;
+    transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    border-left: 1px solid #222;
+}
+
+.carrinho-sidebar.active {
+    right: 0;
+}
+
+.close-cart {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 2rem;
+    cursor: pointer;
+    float: right;
+}
+
+.item-carrinho {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #222;
+}
+
+.btn-pagar {
+    width: 100%;
+    padding: 18px;
+    background: var(--primary);
+    border: none;
+    border-radius: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+/* Modais */
+.modal {
+    display:none;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background: rgba(0,0,0,0.95);
+    justify-content:center;
+    align-items:center;
+    z-index: 2000;
+    backdrop-filter: blur(5px);
+}
+
+.modal-box {
+    background: #111;
+    padding: 40px;
+    border-radius: 25px;
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+    border: 1px solid #333;
+}
+
+.status-bar { width: 100%; height: 4px; background: #222; margin: 20px 0; border-radius: 2px; overflow: hidden; }
+.status-progress { width: 0%; height: 100%; background: var(--primary); transition: 1.5s; }
+
+.success-icon {
+    width: 80px; height: 80px; background: var(--primary); color: #000;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 40px; margin: 0 auto 20px auto;
+}
+
+footer {text-align:center;padding:50px;color:#555; background: #000;}
+</style>
+</head>
+
+<body>
+
+
+<header>
+    <img src="WhatsApp Image 2026-05-04 at 11.03.31.jpeg" alt="NIX Logo" class="logo-site">
+</header>
+
+<div class="cart-trigger" onclick="toggleCart()">
+    🛒 <span class="cart-count" id="cart-count">0</span>
+</div>
+
+<div class="container" id="produtos"></div>
+
+<div class="carrinho-sidebar" id="sidebar">
+    <button class="close-cart" onclick="toggleCart()">×</button>
+    <h2 style="margin-top: 0;">🛍️ Seu Carrinho</h2>
+    <div id="lista" style="min-height: 200px; margin-top: 40px;"></div>
+    <hr style="border: 1px solid #222; margin: 20px 0;">
+    <p style="font-size: 1.2rem; font-weight: bold;">Total: <span style="color: var(--primary)">R$ <span id="total">0.00</span></span></p>
+    <button class="btn-pagar" onclick="abrirPix()">PAGAR AGORA</button>
+</div>
+
+<div class="modal" id="modalPix">
+  <div class="modal-box">
+    <h2>Pagamento Pix</h2>
+    <img id="qrcode" src="" style="width:200px; background:#fff; padding:10px; border-radius:10px;">
+    <div class="status-bar"><div class="status-progress" id="progress"></div></div>
+    <p id="status-text">Aguardando pagamento...</p>
+    <button onclick="simularProcessamento()" style="padding:10px; background: #333; color: #fff; border: none; border-radius: 5px; cursor:pointer;">Simular Confirmação</button>
+  </div>
+</div>
+
+<div class="modal" id="modalSucesso">
+    <div class="modal-box" style="border-color: var(--primary);">
+        <div class="success-icon">✓</div>
+        <h2>Pedido Confirmado!</h2>
+        <p>Sua compra na NIX foi aprovada com sucesso.</p>
+        <button onclick="fecharSucesso()" style="background: var(--primary); padding: 15px; border: none; border-radius: 10px; width: 100%; cursor: pointer; font-weight: bold; text-transform: uppercase;">Continuar</button>
+    </div>
+</div>
+
+<footer>© 2026 NIX</footer>
+
+<script>
+const produtos = [
+    {nome:"Camiseta Black", preco:284, img: "image.png"},
+    {nome:"Jaqueta Tech", preco:259, img:"https://images.unsplash.com/photo-1551028719-00167b16eac5"},
+    {nome:"Sneaker Neon", preco:499, img:"https://images.unsplash.com/photo-1560769629-975ec94e6a86"},
+    {nome:"Calça Jogger", preco:189, img:"joggger1avif"},
+    {nome:"Court Vision", preco:450, img:"tete.avif"},
+    {nome:"Jaqueta Nike Preta", preco:350, img:"a.avif"},
+
+];
+
+let carrinho = [];
+
+function render(){
+    const container = document.getElementById('produtos');
+    produtos.forEach((p,i)=>{
+        const div=document.createElement('div');
+        div.className='produto';
+        div.innerHTML=`<img src="${p.img}"><div class="info"><h3>${p.nome}</h3><div class="preco">R$ ${p.preco.toFixed(2)}</div><button onclick="add(${i})">ADICIONAR</button></div>`;
+        container.appendChild(div);
+    });
+}
+
+function toggleCart() {
+    document.getElementById('sidebar').classList.toggle('active');
+}
+
+function add(i){
+    carrinho.push(produtos[i]);
+    atualizar();
+    // Abre o carrinho automaticamente ao adicionar um item (opcional)
+    if(!document.getElementById('sidebar').classList.contains('active')){
+        toggleCart();
+    }
+}
+
+function remover(index){
+    carrinho.splice(index, 1);
+    atualizar();
+}
+
+function atualizar(){
+    const lista = document.getElementById('lista');
+    const totalSpan = document.getElementById('total');
+    const cartCount = document.getElementById('cart-count');
+    
+    lista.innerHTML='';
+    let total=0;
+    
+    carrinho.forEach((item, index)=>{
+        const div = document.createElement('div');
+        div.className = 'item-carrinho';
+        div.innerHTML = `<span>${item.nome}</span><button onclick="remover(${index})" style="background:none; border:none; color:red; cursor:pointer;">✕</button>`;
+        lista.appendChild(div);
+        total += item.preco;
+    });
+    
+    totalSpan.textContent = total.toFixed(2);
+    cartCount.textContent = carrinho.length;
+}
+
+function abrirPix(){
+    if(carrinho.length === 0) return alert("Carrinho vazio!");
+    document.getElementById('qrcode').src = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=NIX-SIMULACAO";
+    document.getElementById('modalPix').style.display = 'flex';
+    document.getElementById('progress').style.width = '0%';
+}
+
+function simularProcessamento(){
+    document.getElementById('progress').style.width = '100%';
+    document.getElementById('status-text').textContent = "Processando...";
+    setTimeout(() => {
+        document.getElementById('modalPix').style.display = 'none';
+        document.getElementById('sidebar').classList.remove('active');
+        document.getElementById('modalSucesso').style.display = 'flex';
+        carrinho = [];
+        atualizar();
+    }, 2000);
+}
+
+function fecharSucesso(){
+    document.getElementById('modalSucesso').style.display = 'none';
+}
+
+render();
+</script>
+</body>
+</html>
