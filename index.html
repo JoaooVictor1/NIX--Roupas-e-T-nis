@@ -4,17 +4,28 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NIX - Lifestyle Brand</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
 
 <style>
 :root {
-    --primary: #00ff88;
+    --primary: #ffffff;
+    --accent: #888888;
     --bg: #0a0a0a;
-    --card: #141414;
+    --card: #111111;
+    --card-hover: #1a1a1a;
     --text: #ffffff;
+    --text-secondary: #999999;
+    --border: #222222;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-    margin:0;
+    margin: 0;
     font-family: 'Inter', 'Segoe UI', sans-serif;
     background: var(--bg);
     color: var(--text);
@@ -23,14 +34,65 @@ body {
 
 /* Header */
 header {
-    text-align:center;
-    padding: 30px 20px;
+    text-align: center;
+    padding: 40px 20px 20px;
     background: linear-gradient(to bottom, #000, transparent);
+    border-bottom: 1px solid var(--border);
 }
 
 .logo-site {
-    height: 80px;
+    height: 90px;
     width: auto;
+    filter: drop-shadow(0 4px 20px rgba(255,255,255,0.1));
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    padding: 20px;
+    margin-top: 10px;
+}
+
+nav a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: color 0.3s;
+}
+
+nav a:hover {
+    color: var(--primary);
+}
+
+/* Hero Section */
+.hero {
+    text-align: center;
+    padding: 80px 20px;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.8), var(--bg)), url('logo.jpeg') center/cover;
+    position: relative;
+}
+
+.hero h1 {
+    font-size: 3.5rem;
+    font-weight: 900;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+    background: linear-gradient(135deg, #ffffff, #888888);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero p {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
 }
 
 /* Botão Flutuante do Carrinho */
@@ -38,80 +100,161 @@ header {
     position: fixed;
     top: 20px;
     right: 20px;
-    background: var(--primary);
-    color: #000;
-    padding: 15px 20px;
-    border-radius: 50px;
-    font-weight: 900;
+    background: #1a1a1a;
+    color: #fff;
+    padding: 15px 22px;
+    border-radius: 12px;
+    font-weight: 700;
     cursor: pointer;
     z-index: 99;
-    box-shadow: 0 10px 20px rgba(0, 255, 136, 0.3);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.6);
     display: flex;
     align-items: center;
     gap: 10px;
-    transition: 0.3s;
+    transition: all 0.3s ease;
+    border: 1px solid var(--border);
 }
 
-.cart-trigger:hover { transform: scale(1.1); }
+.cart-trigger:hover {
+    transform: scale(1.05);
+    background: #222;
+}
 
 .cart-count {
-    background: #000;
-    color: #fff;
-    padding: 2px 8px;
+    background: #fff;
+    color: #000;
+    padding: 2px 10px;
     border-radius: 20px;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
+    font-weight: 900;
 }
 
 /* Container de Produtos */
+.section-title {
+    text-align: center;
+    padding: 60px 20px 40px;
+}
+
+.section-title h2 {
+    font-size: 2rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 6px;
+    margin-bottom: 10px;
+}
+
+.section-title p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
 .container {
-    display:grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 30px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 35px;
     padding: 20px 5% 100px 5%;
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
 }
 
 .produto {
     background: var(--card);
-    border-radius: 20px;
+    border-radius: 16px;
     overflow: hidden;
-    border: 1px solid #222;
-    transition: 0.4s;
+    border: 1px solid var(--border);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
 }
 
 .produto:hover {
-    transform: translateY(-10px);
-    border-color: var(--primary);
+    transform: translateY(-8px);
+    border-color: #444;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    background: var(--card-hover);
 }
 
-.produto img { width: 100%; height: 320px; object-fit: cover; }
-.produto .info { padding: 20px; }
-.produto .preco { color: var(--primary); font-size: 1.4rem; font-weight: 700; margin: 10px 0; }
+.produto::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #555, transparent);
+    opacity: 0;
+    transition: opacity 0.4s;
+}
+
+.produto:hover::before {
+    opacity: 1;
+}
+
+.produto img {
+    width: 100%;
+    height: 360px;
+    object-fit: cover;
+    transition: transform 0.5s;
+}
+
+.produto:hover img {
+    transform: scale(1.05);
+}
+
+.produto .info {
+    padding: 25px;
+}
+
+.produto h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.produto .preco {
+    color: var(--primary);
+    font-size: 1.5rem;
+    font-weight: 900;
+    margin: 12px 0;
+}
 
 .produto button {
     width: 100%;
-    padding: 12px;
-    border: none;
+    padding: 14px;
+    border: 1px solid #fff;
     border-radius: 10px;
-    background: #fff;
+    background: transparent;
+    color: #fff;
     font-weight: 700;
     cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.85rem;
+    transition: all 0.3s;
+}
+
+.produto button:hover {
+    background: #fff;
+    color: #000;
 }
 
 /* Lateral do Carrinho (Escondido por padrão) */
 .carrinho-sidebar {
     position: fixed;
-    right: -400px; /* Escondido */
+    right: -450px;
     top: 0;
-    width: 350px;
+    width: 400px;
     height: 100%;
-    background: #000;
-    padding: 30px;
-    box-shadow: -10px 0 30px rgba(0,0,0,0.9);
+    background: #0d0d0d;
+    padding: 40px;
+    box-shadow: -10px 0 50px rgba(0,0,0,0.9);
     z-index: 1000;
     transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    border-left: 1px solid #222;
+    border-left: 1px solid var(--border);
+    overflow-y: auto;
 }
 
 .carrinho-sidebar.active {
@@ -122,110 +265,217 @@ header {
     background: none;
     border: none;
     color: #fff;
-    font-size: 2rem;
+    font-size: 2.5rem;
     cursor: pointer;
     float: right;
+    transition: transform 0.3s;
+}
+
+.close-cart:hover {
+    transform: rotate(90deg);
+}
+
+.carrinho-sidebar h2 {
+    font-size: 1.5rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 30px;
+    padding-top: 10px;
 }
 
 .item-carrinho {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 15px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #222;
+    align-items: center;
+    margin-bottom: 18px;
+    padding: 15px;
+    background: var(--card);
+    border-radius: 10px;
+    border: 1px solid var(--border);
+}
+
+.item-carrinho button {
+    background: none;
+    border: none;
+    color: #666;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: color 0.3s;
+}
+
+.item-carrinho button:hover {
+    color: #fff;
 }
 
 .btn-pagar {
     width: 100%;
     padding: 18px;
-    background: var(--primary);
+    background: #fff;
+    color: #000;
     border: none;
     border-radius: 12px;
-    font-weight: 800;
+    font-weight: 900;
     cursor: pointer;
-    margin-top: 20px;
+    margin-top: 25px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    transition: all 0.3s;
+}
+
+.btn-pagar:hover {
+    background: #e0e0e0;
+    transform: translateY(-2px);
 }
 
 /* Modais */
 .modal {
-    display:none;
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     background: rgba(0,0,0,0.95);
-    justify-content:center;
-    align-items:center;
+    justify-content: center;
+    align-items: center;
     z-index: 2000;
-    backdrop-filter: blur(5px);
+    backdrop-filter: blur(10px);
 }
 
 .modal-box {
     background: #111;
-    padding: 40px;
-    border-radius: 25px;
+    padding: 50px;
+    border-radius: 24px;
     text-align: center;
-    max-width: 400px;
+    max-width: 450px;
     width: 90%;
-    border: 1px solid #333;
+    border: 1px solid var(--border);
 }
 
-.status-bar { width: 100%; height: 4px; background: #222; margin: 20px 0; border-radius: 2px; overflow: hidden; }
-.status-progress { width: 0%; height: 100%; background: var(--primary); transition: 1.5s; }
+.modal-box h2 {
+    font-size: 1.8rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 25px;
+}
+
+.status-bar {
+    width: 100%;
+    height: 4px;
+    background: #222;
+    margin: 25px 0;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.status-progress {
+    width: 0%;
+    height: 100%;
+    background: #fff;
+    transition: 1.5s;
+}
 
 .success-icon {
-    width: 80px; height: 80px; background: var(--primary); color: #000;
-    border-radius: 50%; display: flex; align-items: center; justify-content: center;
-    font-size: 40px; margin: 0 auto 20px auto;
+    width: 90px;
+    height: 90px;
+    background: #fff;
+    color: #000;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 45px;
+    margin: 0 auto 25px auto;
+    font-weight: 900;
 }
 
-footer {text-align:center;padding:50px;color:#555; background: #000;}
+.modal-box button {
+    padding: 14px 30px;
+    background: #333;
+    color: #fff;
+    border: 1px solid #444;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: all 0.3s;
+}
+
+.modal-box button:hover {
+    background: #444;
+}
+
+footer {
+    text-align: center;
+    padding: 60px 20px;
+    color: #444;
+    background: #000;
+    border-top: 1px solid var(--border);
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
 </style>
 </head>
 
 <body>
 
-
 <header>
     <img src="logo.jpeg" alt="NIX Logo" class="logo-site">
+    <nav>
+        <a href="#">Início</a>
+        <a href="#">Coleção</a>
+        <a href="#">Sobre</a>
+        <a href="#">Contato</a>
+    </nav>
 </header>
+
+<div class="hero">
+    <h1>NIX</h1>
+    <p>Defina seu estilo</p>
+</div>
 
 <div class="cart-trigger" onclick="toggleCart()">
     🛒 <span class="cart-count" id="cart-count">0</span>
+</div>
+
+<div class="section-title">
+    <h2>Coleção</h2>
+    <p>Peças selecionadas</p>
 </div>
 
 <div class="container" id="produtos"></div>
 
 <div class="carrinho-sidebar" id="sidebar">
     <button class="close-cart" onclick="toggleCart()">×</button>
-    <h2 style="margin-top: 0;">🛍️ Seu Carrinho</h2>
-    <div id="lista" style="min-height: 200px; margin-top: 40px;"></div>
-    <hr style="border: 1px solid #222; margin: 20px 0;">
-    <p style="font-size: 1.2rem; font-weight: bold;">Total: <span style="color: var(--primary)">R$ <span id="total">0.00</span></span></p>
+    <h2>🛍️ Seu Carrinho</h2>
+    <div id="lista" style="min-height: 200px;"></div>
+    <hr style="border: 1px solid #222; margin: 25px 0;">
+    <p style="font-size: 1.3rem; font-weight: 900;">Total: <span style="color: #fff">R$ <span id="total">0.00</span></span></p>
     <button class="btn-pagar" onclick="abrirPix()">PAGAR AGORA</button>
 </div>
 
 <div class="modal" id="modalPix">
   <div class="modal-box">
     <h2>Pagamento Pix</h2>
-    <img id="qrcode" src="" style="width:200px; background:#fff; padding:10px; border-radius:10px;">
+    <img id="qrcode" src="" style="width:220px; background:#fff; padding:15px; border-radius:12px; margin: 0 auto; display: block;">
     <div class="status-bar"><div class="status-progress" id="progress"></div></div>
-    <p id="status-text">Aguardando pagamento...</p>
-    <button onclick="simularProcessamento()" style="padding:10px; background: #333; color: #fff; border: none; border-radius: 5px; cursor:pointer;">Simular Confirmação</button>
+    <p id="status-text" style="color: var(--text-secondary);">Aguardando pagamento...</p>
+    <button onclick="simularProcessamento()">Simular Confirmação</button>
   </div>
 </div>
 
 <div class="modal" id="modalSucesso">
-    <div class="modal-box" style="border-color: var(--primary);">
+    <div class="modal-box">
         <div class="success-icon">✓</div>
         <h2>Pedido Confirmado!</h2>
-        <p>Sua compra na NIX foi aprovada com sucesso.</p>
-        <button onclick="fecharSucesso()" style="background: var(--primary); padding: 15px; border: none; border-radius: 10px; width: 100%; cursor: pointer; font-weight: bold; text-transform: uppercase;">Continuar</button>
+        <p style="color: var(--text-secondary); margin: 20px 0;">Sua compra na NIX foi aprovada com sucesso.</p>
+        <button onclick="fecharSucesso()">Continuar</button>
     </div>
 </div>
 
-<footer>© 2026 NIX</footer>
+<footer>© 2026 NIX — Todos os direitos reservados</footer>
 
 <script>
 const produtos = [
@@ -236,7 +486,11 @@ const produtos = [
     {nome:"Court Vision", preco:450, img:"tete.avif"},
     {nome:"Jaqueta Nike Preta", preco:350, img:"a.avif"},
     {nome: "Moletom Nix", preco: 400, img: "nixmoletom.jpeg"},
-
+    {nome:"Camiseta Oversized Gray", preco: 199, img:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab"},
+    {nome:"Jaqueta Corta-Vento", preco: 320, img:"https://images.unsplash.com/photo-1591047139829-d91aecb6caea"},
+    {nome:"Calça Cargo Preta", preco: 245, img:"https://images.unsplash.com/photo-1624378439575-d8705ad7ae80"},
+    {nome:"Boné Minimalista", preco: 89, img:"https://images.unsplash.com/photo-1588850561407-ed78c334e67a"},
+    {nome:"Moletom Cinza Premium", preco: 380, img:"https://images.unsplash.com/photo-1556821840-3a63f95609a7"},
 
 ];
 
@@ -247,7 +501,7 @@ function render(){
     produtos.forEach((p,i)=>{
         const div=document.createElement('div');
         div.className='produto';
-        div.innerHTML=`<img src="${p.img}"><div class="info"><h3>${p.nome}</h3><div class="preco">R$ ${p.preco.toFixed(2)}</div><button onclick="add(${i})">ADICIONAR</button></div>`;
+        div.innerHTML=`<img src="${p.img}"><div class="info"><h3>${p.nome}</h3><div class="preco">R$ ${p.preco.toFixed(2)}</div><button onclick="add(${i})">Adicionar ao Carrinho</button></div>`;
         container.appendChild(div);
     });
 }
@@ -259,7 +513,6 @@ function toggleCart() {
 function add(i){
     carrinho.push(produtos[i]);
     atualizar();
-    // Abre o carrinho automaticamente ao adicionar um item (opcional)
     if(!document.getElementById('sidebar').classList.contains('active')){
         toggleCart();
     }
@@ -274,25 +527,25 @@ function atualizar(){
     const lista = document.getElementById('lista');
     const totalSpan = document.getElementById('total');
     const cartCount = document.getElementById('cart-count');
-    
+
     lista.innerHTML='';
     let total=0;
-    
+
     carrinho.forEach((item, index)=>{
         const div = document.createElement('div');
         div.className = 'item-carrinho';
-        div.innerHTML = `<span>${item.nome}</span><button onclick="remover(${index})" style="background:none; border:none; color:red; cursor:pointer;">✕</button>`;
+        div.innerHTML = `<span style="font-weight: 600;">${item.nome}</span><button onclick="remover(${index})">✕</button>`;
         lista.appendChild(div);
         total += item.preco;
     });
-    
+
     totalSpan.textContent = total.toFixed(2);
     cartCount.textContent = carrinho.length;
 }
 
 function abrirPix(){
     if(carrinho.length === 0) return alert("Carrinho vazio!");
-    document.getElementById('qrcode').src = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=NIX-SIMULACAO";
+    document.getElementById('qrcode').src = "https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=NIX-SIMULACAO";
     document.getElementById('modalPix').style.display = 'flex';
     document.getElementById('progress').style.width = '0%';
 }
